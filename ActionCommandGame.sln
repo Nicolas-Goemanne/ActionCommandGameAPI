@@ -33,6 +33,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionCommandGame.Extension
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionCommandGame.Configuration", "ActionCommandGame.Configuration\ActionCommandGame.Configuration.csproj", "{853B1840-4921-4C85-891A-BEB0B8D54432}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{177A7133-62C7-4F87-9B14-0301655FCC04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionCommandGame.Api", "ActionCommandGame.Api\ActionCommandGame.Api.csproj", "{AB7C8464-97F4-4552-A9CC-ADF4892D4539}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionCommandGame.Authentication", "ActionCommandGame.Authentication\ActionCommandGame.Authentication.csproj", "{883895BB-8199-449B-8789-C9B9230FD654}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionCommandGame.Sdk", "ActionCommandGame.Sdk\ActionCommandGame.Sdk.csproj", "{E7B81751-BD64-4FB1-B244-F37175EA2DB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +91,18 @@ Global
 		{853B1840-4921-4C85-891A-BEB0B8D54432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{853B1840-4921-4C85-891A-BEB0B8D54432}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{853B1840-4921-4C85-891A-BEB0B8D54432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB7C8464-97F4-4552-A9CC-ADF4892D4539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7C8464-97F4-4552-A9CC-ADF4892D4539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7C8464-97F4-4552-A9CC-ADF4892D4539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7C8464-97F4-4552-A9CC-ADF4892D4539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{883895BB-8199-449B-8789-C9B9230FD654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{883895BB-8199-449B-8789-C9B9230FD654}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{883895BB-8199-449B-8789-C9B9230FD654}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{883895BB-8199-449B-8789-C9B9230FD654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7B81751-BD64-4FB1-B244-F37175EA2DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B81751-BD64-4FB1-B244-F37175EA2DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B81751-BD64-4FB1-B244-F37175EA2DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B81751-BD64-4FB1-B244-F37175EA2DB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +119,9 @@ Global
 		{B346E28B-6ED2-434B-94B9-0F46794F019A} = {22A8CF6D-C62B-4DB6-9C86-576AED75704B}
 		{343D36DA-B068-4C01-AEE8-160A8423AE68} = {22A8CF6D-C62B-4DB6-9C86-576AED75704B}
 		{853B1840-4921-4C85-891A-BEB0B8D54432} = {22A8CF6D-C62B-4DB6-9C86-576AED75704B}
+		{AB7C8464-97F4-4552-A9CC-ADF4892D4539} = {177A7133-62C7-4F87-9B14-0301655FCC04}
+		{883895BB-8199-449B-8789-C9B9230FD654} = {A0707DA4-587F-477B-8F92-F26F34C28176}
+		{E7B81751-BD64-4FB1-B244-F37175EA2DB9} = {177A7133-62C7-4F87-9B14-0301655FCC04}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AF43B065-5545-4453-A97F-781AE33CE7DC}

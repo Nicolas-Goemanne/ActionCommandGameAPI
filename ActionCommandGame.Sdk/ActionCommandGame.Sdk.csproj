@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ActionCommandGame.Authentication\ActionCommandGame.Authentication.csproj" />
+    <ProjectReference Include="..\ActionCommandGame.Services.Model\ActionCommandGame.Services.Model.csproj" />
+    <ProjectReference Include="..\ActionCommandGame.Services\ActionCommandGame.Services.csproj" />
+  </ItemGroup>
+
+</Project>
