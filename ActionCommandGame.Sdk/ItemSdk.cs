@@ -9,25 +9,51 @@ namespace ActionCommandGame.Sdk
 {
     public class ItemSdk
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public ItemSdk(HttpClient httpClient)
+        public ItemSdk(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ServiceResult<ItemResult>> GetItemAsync(int id)
+        public async Task<ServiceResult<ItemResult>> Get(int id)
         {
-            var response = await _httpClient.GetAsync($"/api/item/{id}");
+            var httpClient = CreateHttpClient();
+            var route = $"/api/item/{id}";
+
+            var response = await httpClient.GetAsync(route);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ServiceResult<ItemResult>>();
+
+            var result = await response.Content.ReadFromJsonAsync<ServiceResult<ItemResult>>();
+            if (result is null)
+            {
+                return new ServiceResult<ItemResult>();
+            }
+
+            return result;
         }
 
-        public async Task<ServiceResult<IList<ItemResult>>> GetAllItemsAsync()
+        public async Task<ServiceResult<IList<ItemResult>>> Find()
         {
-            var response = await _httpClient.GetAsync("/api/item");
+            var httpClient = CreateHttpClient();
+            var route = "/api/item";
+
+            var response = await httpClient.GetAsync(route);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ServiceResult<IList<ItemResult>>>();
+
+            var result = await response.Content.ReadFromJsonAsync<ServiceResult<IList<ItemResult>>>();
+            if (result is null)
+            {
+                return new ServiceResult<IList<ItemResult>>();
+            }
+
+            return result;
+        }
+
+        private HttpClient CreateHttpClient()
+        {
+            return _httpClientFactory.CreateClient("ActionCommandGameApi");
         }
     }
 }
+

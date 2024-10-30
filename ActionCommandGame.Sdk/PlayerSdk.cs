@@ -11,25 +11,50 @@ using ActionCommandGame.Services.Model.Results;
 
 public class PlayerSdk
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public PlayerSdk(HttpClient httpClient)
+    public PlayerSdk(IHttpClientFactory httpClientFactory)
     {
-        _httpClient = httpClient;
+        _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<ServiceResult<PlayerResult>> GetPlayerAsync(int playerId)
+    public async Task<ServiceResult<PlayerResult>> Get(int id)
     {
-        var response = await _httpClient.GetAsync($"/api/player/{playerId}");
+        var httpClient = CreateHttpClient();
+        var route = $"api/Player/{id}";
+
+        var response = await httpClient.GetAsync(route);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<ServiceResult<PlayerResult>>();
+
+        var result = await response.Content.ReadFromJsonAsync<ServiceResult<PlayerResult>>();
+        if (result is null)
+        {
+            return new ServiceResult<PlayerResult>();
+        }
+
+        return result;
     }
 
-    public async Task<ServiceResult<IList<PlayerResult>>> GetAllPlayersAsync(PlayerFilter? filter)
+    public async Task<ServiceResult<IList<PlayerResult>>> Find(PlayerFilter? filter)
     {
-        var query = filter != null ? $"?filterUserPlayers={filter.FilterUserPlayers}" : string.Empty;
-        var response = await _httpClient.GetAsync($"/api/player{query}");
+        var httpClient = CreateHttpClient();
+        var route = "api/Player";
+
+        var response = await httpClient.GetAsync(route);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<ServiceResult<IList<PlayerResult>>>();
+
+        var result = await response.Content.ReadFromJsonAsync<ServiceResult<IList<PlayerResult>>>();
+        if (result is null)
+        {
+            return new ServiceResult<IList<PlayerResult>>();
+        }
+
+        return result;
+    }
+
+   
+    private HttpClient CreateHttpClient()
+    {
+        return _httpClientFactory.CreateClient("ActionCommandGameApi");
     }
 }

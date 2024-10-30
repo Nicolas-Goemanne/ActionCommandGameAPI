@@ -10,16 +10,16 @@ namespace ActionCommandGame.Ui.ConsoleApp.Views
     internal class PlayerSelectionView: IView
     {
         private readonly MemoryStore _memoryStore;
-        private readonly IPlayerService _playerService;
+        private readonly PlayerSdk _playerSdk;
         private readonly NavigationManager _navigationManager;
 
         public PlayerSelectionView(
             MemoryStore memoryStore,
-            IPlayerService playerService,
+            PlayerSdk playerSdk,
             NavigationManager navigationManager)
         {
             _memoryStore = memoryStore;
-            _playerService = playerService;
+            _playerSdk = playerSdk;
             _navigationManager = navigationManager;
         }
 
@@ -43,7 +43,7 @@ namespace ActionCommandGame.Ui.ConsoleApp.Views
         private async Task<int?> ReadPlayerId()
         {
             var filter = new PlayerFilter { FilterUserPlayers = true };
-            var players = await _playerService.Find(filter);
+            var players = await _playerSdk.Find(filter);
 
             if (players.Data is null || !players.Data.Any())
             {

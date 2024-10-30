@@ -1,5 +1,6 @@
 ﻿using ActionCommandGame.Configuration;
 using ActionCommandGame.Extensions;
+using ActionCommandGame.Sdk;
 using ActionCommandGame.Services.Abstractions;
 using ActionCommandGame.Services.Model.Core;
 using ActionCommandGame.Ui.ConsoleApp.Abstractions;
@@ -14,21 +15,21 @@ namespace ActionCommandGame.Ui.ConsoleApp.Views
         private readonly AppSettings _settings;
         private readonly MemoryStore _memoryStore;
         private readonly NavigationManager _navigationManager;
-        private readonly IGameService _gameService;
-        private readonly IPlayerService _playerService;
+        private readonly GameSdk _gameSdk;
+        private readonly PlayerSdk _playerSdk;
 
         public GameView(
             AppSettings settings,
             MemoryStore memoryStore,
             NavigationManager navigationManager,
-            IGameService gameService,
-            IPlayerService playerService)
+            GameSdk gameSdk,
+            PlayerSdk playerSdk)
         {
             _settings = settings;
             _memoryStore = memoryStore;
             _navigationManager = navigationManager;
-            _gameService = gameService;
-            _playerService = playerService;
+            _gameSdk = gameSdk;
+            _playerSdk = playerSdk;
         }
 
         public async Task Show()
@@ -120,7 +121,7 @@ namespace ActionCommandGame.Ui.ConsoleApp.Views
 
         public async Task ShowStats(int playerId)
         {
-            var playerResult = await _playerService.Get(playerId);
+            var playerResult = await _playerSdk.Get(playerId);
 
             if (playerResult.Data is null)
             {
@@ -176,7 +177,7 @@ namespace ActionCommandGame.Ui.ConsoleApp.Views
 
         private async Task PerformAction(int playerId)
         {
-            var result = await _gameService.PerformAction(playerId);
+            var result = await _gameSdk.PerformAction(playerId);
 
             if (result.Data is null)
             {
@@ -226,7 +227,7 @@ namespace ActionCommandGame.Ui.ConsoleApp.Views
 
         private async Task Buy(int playerId, int itemId)
         {
-            var result = await _gameService.Buy(playerId, itemId);
+            var result = await _gameSdk.Buy(playerId, itemId);
 
             if (result.IsSuccess && result.Data is not null)
             {

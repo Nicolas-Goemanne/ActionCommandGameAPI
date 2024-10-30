@@ -1,4 +1,5 @@
-﻿using ActionCommandGame.Services.Abstractions;
+﻿using ActionCommandGame.Sdk;
+using ActionCommandGame.Services.Abstractions;
 using ActionCommandGame.Services.Model.Results;
 using ActionCommandGame.Ui.ConsoleApp.Abstractions;
 using ActionCommandGame.Ui.ConsoleApp.ConsoleWriters;
@@ -7,17 +8,17 @@ namespace ActionCommandGame.Ui.ConsoleApp.Views
 {
     internal class ShopView: IView
     {
-        private readonly IItemService _itemService;
+        private readonly ItemSdk _itemSdk;
 
-        public ShopView(IItemService itemService)
+        public ShopView(ItemSdk itemSdk)
         {
-            _itemService = itemService;
+            _itemSdk = itemSdk;
         }
         public async Task Show()
         {
             ConsoleBlockWriter.Write("Shop");
             ConsoleWriter.WriteText("Available Shop Items", ConsoleColor.Green);
-            var shopItems = await _itemService.Find();
+            var shopItems = await _itemSdk.Find();
 
             if (shopItems.Data is null)
             {

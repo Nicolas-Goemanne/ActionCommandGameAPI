@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using ActionCommandGame.Configuration;
 using ActionCommandGame.Repository;
+using ActionCommandGame.Sdk;
+using ActionCommandGame.Sdk.Extensions;
 using ActionCommandGame.Services;
 using ActionCommandGame.Services.Abstractions;
 using ActionCommandGame.Ui.ConsoleApp.Navigation;
@@ -32,7 +34,7 @@ namespace ActionCommandGame.Ui.ConsoleApp
             var navigationManager = ServiceProvider.GetRequiredService<NavigationManager>();
 
             var dbContext = ServiceProvider.GetRequiredService<ActionCommandGameDbContext>();
-            dbContext.Initialize();
+            
 
             Console.OutputEncoding = Encoding.UTF8;
             
@@ -43,8 +45,12 @@ namespace ActionCommandGame.Ui.ConsoleApp
 
         {
             var appSettings = new AppSettings();
-            Configuration?.Bind(nameof(AppSettings), appSettings);
-            services.AddSingleton(appSettings);
+            Configuration?.GetSection(nameof(AppSettings)).Bind(appSettings);  // Make sure to bind AppSettings
+            services.AddSingleton(appSettings);  // Register AppSettings as a Singleton
+
+            var apiSettings = new ApiSettings();
+            Configuration?.GetSection(nameof(ApiSettings)).Bind(apiSettings);
+            services.AddApi(apiSettings.BaseUrl);
 
             services.AddDbContext<ActionCommandGameDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -66,12 +72,12 @@ namespace ActionCommandGame.Ui.ConsoleApp
             services.AddTransient<TitleView>();
 
             //Register Services
-            services.AddScoped<IGameService, GameService>();
-            services.AddScoped<IItemService, ItemService>();
-            services.AddScoped<INegativeGameEventService, NegativeGameEventService>();
-            services.AddScoped<IPositiveGameEventService, PositiveGameEventService>();
-            services.AddScoped<IPlayerItemService, PlayerItemService>();
-            services.AddScoped<IPlayerService, PlayerService>();
+            //services.AddScoped<GameSdk, GameSdk>();
+            //services.AddScoped<IItemService, ItemService>();
+            //services.AddScoped<INegativeGameEventService, NegativeGameEventService>();
+            //services.AddScoped<IPositiveGameEventService, PositiveGameEventService>();
+            //services.AddScoped<IPlayerItemService, PlayerItemService>();
+            //services.AddScoped<IPlayerService, PlayerService>();
         }
     }
 }

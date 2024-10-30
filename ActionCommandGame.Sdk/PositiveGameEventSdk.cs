@@ -8,18 +8,34 @@ namespace ActionCommandGame.Sdk
 {
     public class PositiveGameEventSdk
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public PositiveGameEventSdk(HttpClient httpClient)
+        public PositiveGameEventSdk(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<ServiceResult<PositiveGameEventResult>> GetRandomPositiveGameEventAsync(bool hasAttackItem)
         {
-            var response = await _httpClient.GetAsync($"/api/positivegameevent/random?hasAttackItem={hasAttackItem}");
+            var httpClient = CreateHttpClient();
+            var route = $"/api/positivegameevent/random?hasAttackItem={hasAttackItem}";
+
+            var response = await httpClient.GetAsync(route);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ServiceResult<PositiveGameEventResult>>();
+
+            var result = await response.Content.ReadFromJsonAsync<ServiceResult<PositiveGameEventResult>>();
+            if (result is null)
+            {
+                return new ServiceResult<PositiveGameEventResult>();
+            }
+
+            return result;
+        }
+
+        private HttpClient CreateHttpClient()
+        {
+            return _httpClientFactory.CreateClient("ActionCommandGameApi");
         }
     }
 }
+

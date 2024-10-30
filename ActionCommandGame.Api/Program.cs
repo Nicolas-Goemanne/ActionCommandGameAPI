@@ -14,7 +14,6 @@ var appSettings = new AppSettings();
 builder.Configuration?.Bind(nameof(AppSettings), appSettings);
 builder.Services.AddSingleton(appSettings);
 
-
 // Configure DbContext
 builder.Services.AddDbContext<ActionCommandGameDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -55,7 +54,6 @@ builder.Services.AddScoped<INegativeGameEventService, NegativeGameEventService>(
 builder.Services.AddScoped<IPositiveGameEventService, PositiveGameEventService>();
 builder.Services.AddScoped<IPlayerItemService, PlayerItemService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
-//builder.Services.AddScoped<IdentityService>();
 
 var app = builder.Build();
 
@@ -67,11 +65,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
 
 

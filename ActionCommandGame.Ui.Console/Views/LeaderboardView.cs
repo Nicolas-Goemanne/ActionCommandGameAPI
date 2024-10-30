@@ -11,21 +11,21 @@ namespace ActionCommandGame.Ui.ConsoleApp.Views
     internal class LeaderboardView: IView
     {
         private readonly MemoryStore _memoryStore;
-        private readonly IPlayerService _playerService;
+        private readonly PlayerSdk _playerSdk;
 
         public LeaderboardView(
             MemoryStore memoryStore,
-            IPlayerService playerService)
+            PlayerSdk playerSdk)
         {
             _memoryStore = memoryStore;
-            _playerService = playerService;
+            _playerSdk = playerSdk;
         }
 
         public async Task Show()
         {
             ConsoleBlockWriter.Write("Leaderboard");
 
-            var playersResult = await _playerService.Find(new PlayerFilter());
+            var playersResult = await _playerSdk.Find(new PlayerFilter());
 
             if (playersResult.Data is null)
             {

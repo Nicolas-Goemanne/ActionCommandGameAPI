@@ -8,18 +8,34 @@ namespace ActionCommandGame.Sdk
 {
     public class NegativeGameEventSdk
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public NegativeGameEventSdk(HttpClient httpClient)
+        public NegativeGameEventSdk(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ServiceResult<NegativeGameEventResult>> GetRandomNegativeGameEventAsync()
+        public async Task<ServiceResult<NegativeGameEventResult>> GetRandomNegativeGameEvent()
         {
-            var response = await _httpClient.GetAsync("/api/negativegameevent/random");
+            var httpClient = CreateHttpClient();
+            var route = "/api/negativegameevent/random";
+
+            var response = await httpClient.GetAsync(route);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ServiceResult<NegativeGameEventResult>>();
+
+            var result = await response.Content.ReadFromJsonAsync<ServiceResult<NegativeGameEventResult>>();
+            if (result is null)
+            {
+                return new ServiceResult<NegativeGameEventResult>();
+            }
+
+            return result;
+        }
+
+        private HttpClient CreateHttpClient()
+        {
+            return _httpClientFactory.CreateClient("ActionCommandGameApi");
         }
     }
 }
+

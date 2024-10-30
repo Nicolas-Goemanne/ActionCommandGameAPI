@@ -13,7 +13,7 @@ namespace ActionCommandGame.Sdk.Extensions
             services.AddHttpClient("ActionCommandGameApi", options =>
             {
                 options.BaseAddress = new Uri(apiUrl);
-            }).AddHttpMessageHandler<AuthorizationHandler>();
+            });
 
             services.AddScoped<PositiveGameEventSdk>();
             services.AddScoped<NegativeGameEventSdk>();
@@ -21,6 +21,7 @@ namespace ActionCommandGame.Sdk.Extensions
             services.AddScoped<GameSdk>();
             services.AddScoped<ItemSdk>();
             services.AddScoped<PlayerSdk>();
+            
 
             return services;
         }

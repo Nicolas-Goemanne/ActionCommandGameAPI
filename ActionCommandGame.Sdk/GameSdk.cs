@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using ActionCommandGame.Services.Model.Core;
 using ActionCommandGame.Services.Model.Results;
@@ -9,25 +8,51 @@ namespace ActionCommandGame.Sdk
 {
     public class GameSdk
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public GameSdk(HttpClient httpClient)
+        public GameSdk(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ServiceResult<GameResult>> PerformActionAsync(int playerId)
+        public async Task<ServiceResult<GameResult>> PerformAction(int playerId)
         {
-            var response = await _httpClient.PostAsync($"/api/game/{playerId}/actions", null);
+            var httpClient = CreateHttpClient();
+            var route = $"/api/game/{playerId}/actions";
+
+            var response = await httpClient.PostAsync(route, null);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ServiceResult<GameResult>>();
+
+            var result = await response.Content.ReadFromJsonAsync<ServiceResult<GameResult>>();
+            if (result is null)
+            {
+                return new ServiceResult<GameResult>();
+            }
+
+            return result;
         }
 
-        public async Task<ServiceResult<BuyResult>> BuyItemAsync(int playerId, int itemId)
+        public async Task<ServiceResult<BuyResult>> Buy(int playerId, int itemId)
         {
-            var response = await _httpClient.PostAsync($"/api/game/{playerId}/buy/{itemId}", null);
+            var httpClient = CreateHttpClient();
+            var route = $"/api/game/{playerId}/buy/{itemId}";
+
+            var response = await httpClient.PostAsync(route, null);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ServiceResult<BuyResult>>();
+
+            var result = await response.Content.ReadFromJsonAsync<ServiceResult<BuyResult>>();
+            if (result is null)
+            {
+                return new ServiceResult<BuyResult>();
+            }
+
+            return result;
+        }
+
+        private HttpClient CreateHttpClient()
+        {
+            return _httpClientFactory.CreateClient("ActionCommandGameApi");
         }
     }
 }
+

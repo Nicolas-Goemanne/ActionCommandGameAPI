@@ -8,38 +8,76 @@ using ActionCommandGame.Services.Model.Results;
 
 public class PlayerItemSdk
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public PlayerItemSdk(HttpClient httpClient)
+    public PlayerItemSdk(IHttpClientFactory httpClientFactory)
     {
-        _httpClient = httpClient;
+        _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<ServiceResult<PlayerItemResult>> GetPlayerItemAsync(int id)
+    public async Task<ServiceResult<PlayerItemResult>> Get(int id)
     {
-        var response = await _httpClient.GetAsync($"/api/playeritem/{id}");
+        var httpClient = CreateHttpClient();
+        var route = $"/api/playeritem/{id}";
+
+        var response = await httpClient.GetAsync(route);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<ServiceResult<PlayerItemResult>>();
+
+        var result = await response.Content.ReadFromJsonAsync<ServiceResult<PlayerItemResult>>();
+        if (result is null)
+        {
+            return new ServiceResult<PlayerItemResult>();
+        }
+
+        return result;
     }
 
-    public async Task<ServiceResult<IList<PlayerItemResult>>> GetAllPlayerItemsAsync(PlayerItemFilter filter)
+    public async Task<ServiceResult<IList<PlayerItemResult>>> Find(PlayerItemFilter filter)
     {
+        var httpClient = CreateHttpClient();
         var query = filter.PlayerId.HasValue ? $"?playerId={filter.PlayerId}" : string.Empty;
-        var response = await _httpClient.GetAsync($"/api/playeritem{query}");
+        var route = $"/api/playeritem{query}";
+
+        var response = await httpClient.GetAsync(route);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<ServiceResult<IList<PlayerItemResult>>>();
+
+        var result = await response.Content.ReadFromJsonAsync<ServiceResult<IList<PlayerItemResult>>>();
+        if (result is null)
+        {
+            return new ServiceResult<IList<PlayerItemResult>>();
+        }
+
+        return result;
     }
 
-    public async Task<ServiceResult<PlayerItemResult>> CreatePlayerItemAsync(int playerId, int itemId)
+    public async Task<ServiceResult<PlayerItemResult>> Create(int playerId, int itemId)
     {
-        var response = await _httpClient.PostAsync($"/api/playeritem/{playerId}/{itemId}", null);
+        var httpClient = CreateHttpClient();
+        var route = $"/api/playeritem/{playerId}/{itemId}";
+
+        var response = await httpClient.PostAsync(route, null);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<ServiceResult<PlayerItemResult>>();
+
+        var result = await response.Content.ReadFromJsonAsync<ServiceResult<PlayerItemResult>>();
+        if (result is null)
+        {
+            return new ServiceResult<PlayerItemResult>();
+        }
+
+        return result;
     }
 
-    public async Task DeletePlayerItemAsync(int id)
+    public async Task Delete(int id)
     {
-        var response = await _httpClient.DeleteAsync($"/api/playeritem/{id}");
+        var httpClient = CreateHttpClient();
+        var route = $"/api/playeritem/{id}";
+
+        var response = await httpClient.DeleteAsync(route);
         response.EnsureSuccessStatusCode();
+    }
+
+    private HttpClient CreateHttpClient()
+    {
+        return _httpClientFactory.CreateClient("ActionCommandGameApi");
     }
 }
