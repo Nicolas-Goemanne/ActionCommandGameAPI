@@ -13,7 +13,6 @@ namespace ActionCommandGame.Repository
             {
                 var optionsBuilder = new DbContextOptionsBuilder<ActionCommandGameDbContext>();
 
-                // Ensure the connection string is correct
                 optionsBuilder.UseSqlServer("Server=HYZOKAN\\VIVES;Database=ActionCommandGame;User ID=sa;Password=Vives2023!;TrustServerCertificate=True;");
 
                 return new ActionCommandGameDbContext(optionsBuilder.Options);

@@ -71,13 +71,6 @@ namespace ActionCommandGame.Ui.ConsoleApp
             services.AddTransient<ShopView>();
             services.AddTransient<TitleView>();
 
-            //Register Services
-            //services.AddScoped<GameSdk, GameSdk>();
-            //services.AddScoped<IItemService, ItemService>();
-            //services.AddScoped<INegativeGameEventService, NegativeGameEventService>();
-            //services.AddScoped<IPositiveGameEventService, PositiveGameEventService>();
-            //services.AddScoped<IPlayerItemService, PlayerItemService>();
-            //services.AddScoped<IPlayerService, PlayerService>();
         }
     }
 }
