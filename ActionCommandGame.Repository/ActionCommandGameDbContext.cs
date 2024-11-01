@@ -1,11 +1,13 @@
 ﻿using ActionCommandGame.Model;
 using ActionCommandGame.Repository.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace ActionCommandGame.Repository
 {
-    public class ActionCommandGameDbContext : DbContext
+    public class ActionCommandGameDbContext : IdentityDbContext<IdentityUser>
     {
         public class ActionCommandGameDbContextFactory : IDesignTimeDbContextFactory<ActionCommandGameDbContext>
         {
@@ -24,6 +26,7 @@ namespace ActionCommandGame.Repository
         public DbSet<Item> Items { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<PlayerItem> PlayerItems { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public ActionCommandGameDbContext(DbContextOptions<ActionCommandGameDbContext> options) : base(options)
         {
@@ -31,9 +34,8 @@ namespace ActionCommandGame.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ConfigureRelationships();
-
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ConfigureRelationships();
         }
 
         public void Initialize()

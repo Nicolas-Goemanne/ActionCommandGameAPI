@@ -5,7 +5,7 @@ namespace ActionCommandGame.Services.Extensions
     public static class ServiceResultExtensions
     {
         public static T NotFound<T>(this T serviceResult)
-            where T: ServiceResult
+            where T : ServiceResult
         {
             var message = new ServiceMessage
             {
@@ -70,6 +70,28 @@ namespace ActionCommandGame.Services.Extensions
             }
 
             return serviceResult;
+        }
+
+        public static void Deleted(this ServiceResult serviceResult, string entityName)
+        {
+            serviceResult.Messages.Add(new ServiceMessage
+            {
+                Code = "Deleted",
+                Message = $"{entityName} was successfully deleted.",
+                MessagePriority = MessagePriority.Error
+
+            });
+        }
+
+        public static void LoginFailed(this ServiceResult serviceResult)
+        {
+            serviceResult.Messages.Add(new ServiceMessage
+            {
+                Code = "LoginFailed",
+                Message = "The login failed.",
+                MessagePriority = MessagePriority.Error
+
+            });
         }
     }
 }

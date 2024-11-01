@@ -33,7 +33,7 @@ namespace ActionCommandGame.Ui.ConsoleApp
 
             var navigationManager = ServiceProvider.GetRequiredService<NavigationManager>();
 
-            var dbContext = ServiceProvider.GetRequiredService<ActionCommandGameDbContext>();
+            
             
 
             Console.OutputEncoding = Encoding.UTF8;
@@ -52,9 +52,6 @@ namespace ActionCommandGame.Ui.ConsoleApp
             Configuration?.GetSection(nameof(ApiSettings)).Bind(apiSettings);
             services.AddApi(apiSettings.BaseUrl);
 
-            services.AddDbContext<ActionCommandGameDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
 
             services.AddSingleton<MemoryStore>();
 
@@ -70,6 +67,9 @@ namespace ActionCommandGame.Ui.ConsoleApp
             services.AddTransient<PlayerSelectionView>();
             services.AddTransient<ShopView>();
             services.AddTransient<TitleView>();
+            services.AddTransient<LoginView>();
+            services.AddTransient<RegisterView>();
+            services.AddTransient<IdentitySdk>();
 
         }
     }
